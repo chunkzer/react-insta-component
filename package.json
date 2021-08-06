@@ -1,0 +1,21 @@
+{
+  "name": "react-insta-component",
+  "version": "1.0.0",
+  "description": "Quickly initialize a new component with everything you need.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "react-bp": "./cli.js"
+  },
+  "keywords": [
+    "boilerplate",
+    "react"
+  ],
+  "author": "Christian Ruink",
+  "license": "ISC",
+  "dependencies": {
+    "prompt": "^1.1.0"
+  }
+}
