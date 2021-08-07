@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "Quickly initialize a new component with everything you need.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "bin": {
-    "react-bp": "./cli.js"
+    "react-insta": "./cli.js"
   },
   "keywords": [
     "boilerplate",
@@ -16,6 +17,7 @@
   "author": "Christian Ruink",
   "license": "ISC",
   "dependencies": {
+    "mocha": "^9.0.3",
     "prompt": "^1.1.0"
   }
 }
