@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 // include node fs module
 import fs, { promises } from 'fs';
 import prompt from 'prompt';
@@ -154,23 +152,26 @@ test('renders correctly', () => {
  
 export const main = async () => {
     prompt.start();
-    let config = await import('./insta-component.config.js');
-    
-    prompt.get(coreProperties, async (err, result) => {
+    const configExists = await fs.existsSync('./insta-component.config.js');
+    prompt.get(coreProperties, async (err, coreResult) => {
         if (err) { return onErr(err); }
-        const { name, filepath } = coreProperties;
+        const { componentName, filepath } = coreResult;
 
         // if not config object prompt needed
-        if(config) {
-            prompt.get(extraProperties, async (err, result) => {
+        if(!configExists) {
+            prompt.get(extraProperties, async (err, extraResult) => {
                 if (err) { return onErr(err); }
-                
-                await writeConfigFile(extraProperties);
-                const args = { name, filepath, ...extraProperties}
+
+                console.log('extraResult: ', extraResult);
+                await writeConfigFile(extraResult);
+                const args = { componentName, filepath, ...extraResult}
                 await writeBoilerplate(args);
             });
         } else {
-            const args = { name, filepath, ...config };
+            const { default: config } = await import('./insta-component.config.js')
+
+            console.log('config import: ', config);
+            const args = { componentName, filepath, ...config };
             await writeBoilerplate(args);
         }
     });
@@ -203,11 +204,11 @@ export const writeConfigFile = async ({ native, typescript, styledComponents, st
 
     const configFileBoilerplate = `
 const config = {
-    native: ${native[0].toLowerCase() === 't'},
-    typescript: ${typescript[0].toLowerCase() === 't'},
-    storybook: ${storybook[0].toLowerCase() === 't'},
-    styledComponents: ${styledComponents[0].toLowerCase() === 't'},
-    tests: ${tests[0].toLowerCase() === 't'},
+    native: ${native},
+    typescript: ${typescript},
+    storybook: ${storybook},
+    styledComponents: ${styledComponents},
+    tests: ${tests},
 };
 
 export default config;
@@ -228,4 +229,5 @@ export default {
     createTestsFile,
     writeBoilerplate,
     writeConfigFile,
+    main,
 };

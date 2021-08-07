@@ -8,7 +8,7 @@
     "test": "mocha"
   },
   "bin": {
-    "react-insta": "./cli.js"
+    "react-insta": "./index.js"
   },
   "keywords": [
     "boilerplate",
