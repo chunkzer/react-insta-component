@@ -8,39 +8,44 @@ const coreProperties = [
     {
         name: 'componentName',
         validator: /^[a-zA-Z\s]+$/,
-        message: 'Enter new Component name',
+        description: 'Enter new Component name (default "Component")',
         error: 'Component name must only be letters'
     },
     {
         name: 'filepath',
-        message: 'Enter filepath to provision (default \'./\')'
+        description: 'Enter filepath to provision (default \'./\')'
     },
 ];
 
 const extraProperties = [
     {
         name: 'native',
-        message: 'Is it a React Native component? (t/f)',
+        description: 'Is it a React Native component? (t/f)',
+        message: 'Input must be one of: (true|t|false|f)',
         type: 'boolean',
     },
     {
         name: 'typescript',
-        message: 'Using typescript? (t/f)',
+        description: 'Using typescript? (t/f)',
+        message: 'Input must be one of: (true|t|false|f)',
         type: 'boolean',
     },
     {
         name: 'storybook',
-        message: 'Add storybook? (t/f)',
+        description: 'Add storybook? (t/f)',
+        message: 'Input must be one of: (true|t|false|f)',
         type: 'boolean',
     },
     {
         name: 'styledComponents',
-        message: 'Add styled components? (t/f)',
+        description: 'Add styled components? (t/f)',
+        message: 'Input must be one of: (true|t|false|f)',
         type: 'boolean',
     },
     {
         name: 'tests',
-        message: 'Add tests? (t/f)',
+        description: 'Add tests? (t/f)',
+        message: 'Input must be one of: (true|t|false|f)',
         type: 'boolean'
     }
 ];
@@ -161,16 +166,12 @@ export const main = async () => {
         if(!configExists) {
             prompt.get(extraProperties, async (err, extraResult) => {
                 if (err) { return onErr(err); }
-
-                console.log('extraResult: ', extraResult);
                 await writeConfigFile(extraResult);
                 const args = { componentName, filepath, ...extraResult}
                 await writeBoilerplate(args);
             });
         } else {
             const { default: config } = await import('./insta-component.config.js')
-
-            console.log('config import: ', config);
             const args = { componentName, filepath, ...config };
             await writeBoilerplate(args);
         }

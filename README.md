@@ -2,6 +2,10 @@
 
 Quickly initialize a react or react-native component with everything you need to start coding.
 
+# How to install
+
+Run ```npm install -g react-insta-component```
+
 # How to use.
 
 Run  ```react-insta``` at the root of your project.
