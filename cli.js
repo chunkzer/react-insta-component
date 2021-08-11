@@ -157,7 +157,7 @@ test('renders correctly', () => {
  
 export const main = async () => {
     prompt.start();
-    const configExists = await fs.existsSync('./insta-component.config.js');
+    const configExists = await fs.existsSync('./insta-component.config.json');
     prompt.get(coreProperties, async (err, coreResult) => {
         if (err) { return onErr(err); }
         const { componentName, filepath } = coreResult;
@@ -171,7 +171,8 @@ export const main = async () => {
                 await writeBoilerplate(args);
             });
         } else {
-            const { default: config } = await import('../../insta-component.config.js')
+            const configRaw = await promises.readFile('./insta-component.config.json', 'utf-8');
+            const config = JSON.parse(configRaw);
             const args = { componentName, filepath, ...config };
             await writeBoilerplate(args);
         }
@@ -204,17 +205,15 @@ export const writeConfigFile = async ({ native, typescript, styledComponents, st
     
 
     const configFileBoilerplate = `
-const config = {
-    native: ${native},
-    typescript: ${typescript},
-    storybook: ${storybook},
-    styledComponents: ${styledComponents},
-    tests: ${tests},
-};
-
-export default config;
+{
+    "native": ${native},
+    "typescript": ${typescript},
+    "storybook": ${storybook},
+    "styledComponents": ${styledComponents},
+    "tests": ${tests}
+}
 `
-    await promises.writeFile('./insta-component.config.js', configFileBoilerplate);
+    await promises.writeFile('./insta-component.config.json', configFileBoilerplate);
 }
 
 const onErr = (err) => {
