@@ -171,7 +171,7 @@ export const main = async () => {
                 await writeBoilerplate(args);
             });
         } else {
-            const { default: config } = await import('./insta-component.config.js')
+            const { default: config } = await import('../../insta-component.config.js')
             const args = { componentName, filepath, ...config };
             await writeBoilerplate(args);
         }
