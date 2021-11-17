@@ -116,20 +116,25 @@ storiesOf('${componentName}', module).add('default', () => (
 `;
 
     const storiesWebBoilerplate = `
-import React from 'react';
+import React${typescript ? ' { ComponentProps }': ''} from 'react';
+import {Meta, Story} from "@storybook/react";
 import ${componentName} from './${componentName}';
 
 export default {
   title: '${componentName}',
   component: ${componentName},
   argTypes: {},
+} as Meta;
+
+
+const mockArguments = {
 };
 
-const Template = (args) => <${componentName} {...args} />;
+const Template ${typescript ? `: Story<ComponentProps <typeof ${componentName}>>` : ''} = (args) => <${componentName} {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  primary: true,
+  ...mockArguments
 };
 `;
 

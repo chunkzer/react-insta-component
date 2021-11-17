@@ -208,7 +208,7 @@ describe('Create Storybook File', () => {
         assert.ok(exists);
 
         const file = await promises.readFile('./test/TestComponent/TestComponent.stories.tsx', 'utf-8');
-        assert.ok(file.includes("const Template = (args) => <TestComponent {...args} />;"));
+        assert.ok(file.includes("const Template : Story<ComponentProps <typeof TestComponent>> = (args) => <TestComponent {...args} />;"));
 
         await promises.rm('./test/TestComponent/TestComponent.stories.tsx');
     });
